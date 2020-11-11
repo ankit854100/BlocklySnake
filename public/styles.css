@@ -1,0 +1,89 @@
+html,
+body {
+  height: 100%;
+  padding: 0;
+  margin: 0;
+}
+
+#root {
+  height: 100%;
+  /* background-color: #f6eec9; */
+}
+
+.wrapper {
+  background-color: #e5f0ff;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.blocklyWrapper {
+  /* background-color: #fff; */
+  display: flex;
+  flex-direction: row;
+  height: 100%;
+}
+
+.blocklyContainer {
+  /* background-color: rgb(52, 192, 71); */
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 70%;
+  padding-right: 5px;
+}
+
+.BlocklyInnerContainer {
+  height: 100%;
+  /* background-color: rgb(245, 119, 115); */
+  display: flex;
+  flex-direction: column;
+}
+
+.buttonContainer {
+  /* background-color: #fff; */
+  padding: 5px 0 5px;
+  text-align: right;
+}
+
+.customButton {
+  margin-left: 5px;
+}
+
+#blocklyDiv {
+  width: 100%;
+  height: 100%;
+  /* background-color: #000; */
+}
+
+.blocklySvg {
+  background-color: #f9f9f9 !important;
+  border-radius: 0.3225em;
+  border: 0.0625em solid #c3ccd9;
+}
+
+.blocklyFlyoutBackground {
+  fill: #f9f9f9 !important;
+  stroke: #c3ccd9 !important;
+  stroke-width: 0.0625em;
+}
+
+.blocklyMainBackground {
+  stroke-width: 0 !important;
+}
+
+.rectangle {
+  width: 30%;
+  background-color: #fff;
+  margin-top: 41px;
+  text-align: center;
+  padding: 5px;
+  border-radius: 5px;
+  border: 1px solid #c3ccd9;
+  margin-right: 5px;
+}
+
+#gameCanvas {
+  /* background-color: #fff; */
+  border: 1px solid #000;
+}
