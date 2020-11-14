@@ -1,4 +1,5 @@
 import { ctx } from "./App";
+import { newCode } from "./Workspace";
 
 const dimension = { w: 350, h: 350 };
 
@@ -20,87 +21,74 @@ let foodX;
 let foodY;
 let score = 0;
 let myTimeout;
-let isDrawSnake = false;
-let isMoveSnake = false;
-let isGenerateFood = false;
-let startEating = false;
 let isBoundaryObstacle = false;
+let isSnakeBody = false;
 let eaten = false;
+let isScoreIncreased = false;
+let isGoingUp = false;
+let isGoingDown = false;
+let isGoingLeft = false;
+let isGoingRight = false;
+let bg = "white";
+let stop = false;
 
-function main() {
-  if (hasGameEnded()) {
-    clearTimeout(myTimeout);
-    snake = [
-      { x: 200, y: 200 },
-      { x: 190, y: 200 },
-      { x: 180, y: 200 },
-      { x: 170, y: 200 },
-      { x: 160, y: 200 }
-    ];
-    changingDirection = false;
-    dx = 10;
-    dy = 0;
-    score = 0;
-  } else {
-    changingDirection = false;
-    myTimeout = setTimeout(function onTick() {
-      ctx.clearRect(0, 0, dimension.w, dimension.h);
-      if (isGenerateFood) drawFood();
-      if (checkFood()) {
-        eat();
-      }
-      if (isMoveSnake) moveSnake();
-      if (isDrawSnake) drawSnake();
-
-      main();
-    }, 200);
-  }
+function reset() {
+  snake = [
+    { x: 200, y: 200 },
+    { x: 190, y: 200 },
+    { x: 180, y: 200 },
+    { x: 170, y: 200 },
+    { x: 160, y: 200 }
+  ];
+  changingDirection = false;
+  dx = 10;
+  dy = 0;
+  score = 0;
+  bg = "white";
+  isBoundaryObstacle = false;
+  eaten = false;
+  isScoreIncreased = false;
+  isGoingUp = false;
+  isGoingDown = false;
+  isGoingLeft = false;
+  isGoingRight = false;
+  stop = false;
+  clearTimeout(myTimeout);
 }
 
 function moveSnake() {
   const head = { x: snake[0].x + dx, y: snake[0].y + dy };
   snake.unshift(head);
-  // let hasSnakeEatenFood = false;
-  // if (startEating) {
-  //   hasSnakeEatenFood = snake[0].x === foodX && snake[0].y === foodY;
-  // }
 
-  // const hasSnakeEatenFood = snake[0].x === foodX && snake[0].y === foodY;
-  // if (eaten) {
-  //   score += 5;
-  //   // document.getElementById("score").innerHTML = "Score: " + score;
-  //   console.log("Score: " + score);
-  //   generateFood();
-  // } else {
-  //   snake.pop();
-  // }
   if (!eaten) {
     snake.pop();
   }
   eaten = false;
-
-  // startEating = false;
 }
+
 function eat() {
   eaten = true;
-  score += 5;
-  // document.getElementById("score").innerHTML = "Score: " + score;
-  console.log("Score: " + score);
-  generateFood();
-  // startEating = false;
+  // if (isScoreIncreased) {
+  //   increaseScore();
+  // }
+  // generateFood();
 }
+
+function increaseScore() {
+  if (isScoreIncreased) score += 5;
+  isScoreIncreased = false;
+}
+
 function checkFood() {
   const hasEaten = snake[0].x === foodX && snake[0].y === foodY;
   if (hasEaten) {
-    // startEating = true;
-    // console.log("working");
     return true;
   } else return false;
 }
 
 function clearCanvas() {
   ctx.clearRect(0, 0, dimension.w, dimension.h);
-  clearTimeout(myTimeout);
+  reset();
 }
 
 function drawSnakePart(snakePart) {
@@ -121,23 +109,44 @@ function drawSnake() {
   snake.forEach(drawSnakePart);
 }
 
+function drawScore() {
+  ctx.font = "20px Arial";
+  ctx.fillStyle = "#000";
+  ctx.strokeStyle = "#000";
+  ctx.fillText("Score: " + score, 10, 20);
+}
+
 function hasGameEnded() {
-  if (isBoundaryObstacle) {
-    for (let i = 3; i < snake.length; i++) {
-      if (snake[i].x === snake[0].x && snake[i].y === snake[0].y) {
-        return true;
-      }
+  // if (isBoundaryObstacle || isSnakeBody) {
+  // if (isSnakeBody) {
+  //   for (let i = 3; i < snake.length; i++) {
+  //     if (snake[i].x === snake[0].x && snake[i].y === snake[0].y) {
+  //       return true;
+  //     }
+  //   }
+  // }
+
+  // if (isBoundaryObstacle) {
+  const hitLeftWall = snake[0].x < 0;
+  const hitRightWall = snake[0].x > dimension.w - 10;
+  const hitTopWall = snake[0].y < 0;
+  const hitBottomWall = snake[0].y > dimension.h - 10;
+
+  return hitLeftWall || hitRightWall || hitTopWall || hitBottomWall;
+  //   }
+  // } else {
+  //   return false;
+  // }
+}
+
+function hasSnakeTouchedItself() {
+  for (let i = 3; i < snake.length; i++) {
+    if (snake[i].x === snake[0].x && snake[i].y === snake[0].y) {
+      return true;
     }
-
-    const hitLeftWall = snake[0].x < 0;
-    const hitRightWall = snake[0].x > dimension.w - 10;
-    const hitTopWall = snake[0].y < 0;
-    const hitBottomWall = snake[0].y > dimension.h - 10;
-
-    return hitLeftWall || hitRightWall || hitTopWall || hitBottomWall;
-  } else {
-    return false;
   }
+
+  return false;
 }
 
 function randomFood(min, max) {
@@ -149,11 +158,7 @@ function generateFood() {
   foodY = randomFood(0, dimension.h - 10);
 
   snake.forEach(function hasSnakeEatenFood(part) {
-    // const hasEaten = part.x === foodX && part.y === foodY;
-    let hasEaten = false;
-    if (startEating) {
-      hasEaten = part.x === foodX && part.y === foodY;
-    }
+    let hasEaten = part.x === foodX && part.y === foodY;
     if (hasEaten) {
       generateFood();
     }
@@ -172,82 +177,95 @@ function changeDirection(event) {
   changingDirection = true;
 
   const keyPressed = event.keyCode;
-  // console.log(keyPressed);
 
-  const goingUp = dy === -10;
-  const goingDown = dy === 10;
-  const goingLeft = dx === -10;
-  const goingRight = dx === 10;
+  let goingUp = dy === -10;
+  let goingDown = dy === 10;
+  let goingLeft = dx === -10;
+  let goingRight = dx === 10;
 
-  if (keyPressed === LEFT_KEY && !goingRight) {
-    dx = -10;
-    dy = 0;
+  if (isGoingLeft) {
+    if (keyPressed === LEFT_KEY && !goingRight) {
+      dx = -10;
+      dy = 0;
+    }
   }
-  if (keyPressed === UP_KEY && !goingDown) {
-    dx = 0;
-    dy = -10;
+
+  if (isGoingUp) {
+    if (keyPressed === UP_KEY && !goingDown) {
+      dx = 0;
+      dy = -10;
+    }
   }
-  if (keyPressed === RIGHT_KEY && !goingLeft) {
-    dx = 10;
-    dy = 0;
+
+  if (isGoingRight) {
+    if (keyPressed === RIGHT_KEY && !goingLeft) {
+      dx = 10;
+      dy = 0;
+    }
   }
-  if (keyPressed === DOWN_KEY && !goingUp) {
-    dx = 0;
-    dy = 10;
+
+  if (isGoingDown) {
+    if (keyPressed === DOWN_KEY && !goingUp) {
+      dx = 0;
+      dy = 10;
+    }
   }
 }
 
-function setIsSnakeDraw() {
-  isDrawSnake = true;
+function setGoingUp() {
+  isGoingUp = true;
 }
 
-function setIsMoveSnake() {
-  isMoveSnake = true;
+function setGoingdown() {
+  isGoingDown = true;
 }
 
-function setGenerateFood() {
-  isGenerateFood = true;
+function setGoingLeft() {
+  isGoingLeft = true;
 }
 
-function clear() {
-  generateFood();
-  snake = [
-    { x: 200, y: 200 },
-    { x: 190, y: 200 },
-    { x: 180, y: 200 },
-    { x: 170, y: 200 },
-    { x: 160, y: 200 }
-  ];
-  changingDirection = false;
-  dx = 10;
-  dy = 0;
-  score = 0;
-  isDrawSnake = false;
-  isMoveSnake = false;
-  isGenerateFood = false;
-  startEating = false;
-  isBoundaryObstacle = false;
-  clearTimeout(myTimeout);
-}
-
-function setStartEating() {
-  startEating = true;
+function setGoingRight() {
+  isGoingRight = true;
 }
 
 function setBoundaryObstacles() {
   isBoundaryObstacle = true;
 }
+function setIncreaseScore() {
+  isScoreIncreased = true;
+}
+// main logic of game
+function main() {
+  if (stop) {
+    reset();
+  } else {
+    //   changingDirection = false;
+    try {
+      eval(newCode);
+    } catch (e) {
+      alert(e);
+    }
+  }
+}
+
+function setBackground(color) {
+  bg = color;
+}
+
+function clear() {
+  ctx.clearRect(0, 0, dimension.w, dimension.h);
+}
+
+function endGame() {
+  stop = true;
+}
 
 export default dimension;
 export {
   changeDirection,
-  main,
   generateFood,
-  setIsSnakeDraw,
-  setIsMoveSnake,
-  setGenerateFood,
-  clear,
-  setStartEating,
   setBoundaryObstacles,
-  clearCanvas
+  clearCanvas,
+  main,
+  bg
 };

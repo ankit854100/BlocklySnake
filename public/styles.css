@@ -62,6 +62,11 @@ body {
   border: 0.0625em solid #c3ccd9;
 }
 
+.blocklyToolboxDiv {
+  background-color: white !important;
+  border: 0.0625em solid #c3ccd9;
+}
+
 .blocklyFlyoutBackground {
   fill: #f9f9f9 !important;
   stroke: #c3ccd9 !important;
@@ -74,10 +79,11 @@ body {
 
 .rectangle {
   width: 30%;
+  height: 400px;
   background-color: #fff;
   margin-top: 41px;
   text-align: center;
-  padding: 5px;
+  padding-top: 20px;
   border-radius: 5px;
   border: 1px solid #c3ccd9;
   margin-right: 5px;
