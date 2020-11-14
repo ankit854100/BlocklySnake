@@ -135,7 +135,7 @@ Blockly.JavaScript["block_type_draw_food"] = function (block) {
 
 Blockly.Blocks["block_type_move_snake"] = {
   init: function () {
-    this.appendDummyInput().appendField("move snake");
+    this.appendDummyInput().appendField("start moving the snake");
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour("#4C97FF");
@@ -204,7 +204,7 @@ Blockly.JavaScript["block_type_increase_score"] = function (block) {
 Blockly.Blocks["block_type_up"] = {
   init: function () {
     this.appendDummyInput()
-      .appendField("allow up")
+      .appendField("move up")
       .appendField(
         new Blockly.FieldImage(up, 15, 15, { alt: "*", flipRtl: "FALSE" })
       );
@@ -225,7 +225,7 @@ Blockly.JavaScript["block_type_up"] = function (block) {
 Blockly.Blocks["block_type_down"] = {
   init: function () {
     this.appendDummyInput()
-      .appendField("allow down")
+      .appendField("move down")
       .appendField(
         new Blockly.FieldImage(down, 15, 15, { alt: "*", flipRtl: "FALSE" })
       );
@@ -246,7 +246,7 @@ Blockly.JavaScript["block_type_down"] = function (block) {
 Blockly.Blocks["block_type_left"] = {
   init: function () {
     this.appendDummyInput()
-      .appendField("allow left")
+      .appendField("move left")
       .appendField(
         new Blockly.FieldImage(left, 15, 15, { alt: "*", flipRtl: "FALSE" })
       );
@@ -267,7 +267,7 @@ Blockly.JavaScript["block_type_left"] = function (block) {
 Blockly.Blocks["block_type_right"] = {
   init: function () {
     this.appendDummyInput()
-      .appendField("allow right")
+      .appendField("move right")
       .appendField(
         new Blockly.FieldImage(right, 15, 15, { alt: "*", flipRtl: "FALSE" })
       );
@@ -342,7 +342,7 @@ Blockly.Blocks["block_type_generate_block"] = {
     this.appendDummyInput().appendField("generate food");
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
-    this.setColour(180);
+    this.setColour("#4C97FF");
     this.setTooltip("");
     this.setHelpUrl("");
   }
@@ -352,4 +352,72 @@ Blockly.JavaScript["block_type_generate_block"] = function (block) {
   // TODO: Assemble JavaScript into code variable.
   var code = "\ngenerateFood();";
   return code;
+};
+
+Blockly.Blocks["block_type_up_arrow_block"] = {
+  init: function () {
+    this.appendDummyInput().appendField("up arrow pressed");
+    this.setOutput(true, null);
+    this.setColour("#4C97FF");
+    this.setTooltip("");
+    this.setHelpUrl("");
+  }
+};
+
+Blockly.JavaScript["block_type_up_arrow_block"] = function (block) {
+  // TODO: Assemble JavaScript into code variable.
+  var code = "isGoingUp";
+  // TODO: Change ORDER_NONE to the correct strength.
+  return [code, Blockly.JavaScript.ORDER_NONE];
+};
+
+Blockly.Blocks["block_type_down_arrow_block"] = {
+  init: function () {
+    this.appendDummyInput().appendField("down arrow pressed");
+    this.setOutput(true, null);
+    this.setColour("#4C97FF");
+    this.setTooltip("");
+    this.setHelpUrl("");
+  }
+};
+
+Blockly.JavaScript["block_type_down_arrow_block"] = function (block) {
+  // TODO: Assemble JavaScript into code variable.
+  var code = "isGoingDown";
+  // TODO: Change ORDER_NONE to the correct strength.
+  return [code, Blockly.JavaScript.ORDER_NONE];
+};
+
+Blockly.Blocks["block_type_left_arrow_block"] = {
+  init: function () {
+    this.appendDummyInput().appendField("left arrow pressed");
+    this.setOutput(true, null);
+    this.setColour("#4C97FF");
+    this.setTooltip("");
+    this.setHelpUrl("");
+  }
+};
+
+Blockly.JavaScript["block_type_left_arrow_block"] = function (block) {
+  // TODO: Assemble JavaScript into code variable.
+  var code = "isGoingLeft";
+  // TODO: Change ORDER_NONE to the correct strength.
+  return [code, Blockly.JavaScript.ORDER_NONE];
+};
+
+Blockly.Blocks["block_type_right_arrow_block"] = {
+  init: function () {
+    this.appendDummyInput().appendField("right arrow pressed");
+    this.setOutput(true, null);
+    this.setColour("#4C97FF");
+    this.setTooltip("");
+    this.setHelpUrl("");
+  }
+};
+
+Blockly.JavaScript["block_type_right_arrow_block"] = function (block) {
+  // TODO: Assemble JavaScript into code variable.
+  var code = "isGoingRight";
+  // TODO: Change ORDER_NONE to the correct strength.
+  return [code, Blockly.JavaScript.ORDER_NONE];
 };

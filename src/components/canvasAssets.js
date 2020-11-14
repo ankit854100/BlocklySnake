@@ -117,26 +117,12 @@ function drawScore() {
 }
 
 function hasGameEnded() {
-  // if (isBoundaryObstacle || isSnakeBody) {
-  // if (isSnakeBody) {
-  //   for (let i = 3; i < snake.length; i++) {
-  //     if (snake[i].x === snake[0].x && snake[i].y === snake[0].y) {
-  //       return true;
-  //     }
-  //   }
-  // }
-
-  // if (isBoundaryObstacle) {
   const hitLeftWall = snake[0].x < 0;
   const hitRightWall = snake[0].x > dimension.w - 10;
   const hitTopWall = snake[0].y < 0;
   const hitBottomWall = snake[0].y > dimension.h - 10;
 
   return hitLeftWall || hitRightWall || hitTopWall || hitBottomWall;
-  //   }
-  // } else {
-  //   return false;
-  // }
 }
 
 function hasSnakeTouchedItself() {
@@ -183,49 +169,53 @@ function changeDirection(event) {
   let goingLeft = dx === -10;
   let goingRight = dx === 10;
 
-  if (isGoingLeft) {
-    if (keyPressed === LEFT_KEY && !goingRight) {
-      dx = -10;
-      dy = 0;
-    }
+  if (keyPressed === LEFT_KEY && !goingRight) {
+    // dx = -10;
+    // dy = 0;
+    isGoingLeft = true;
   }
 
-  if (isGoingUp) {
-    if (keyPressed === UP_KEY && !goingDown) {
-      dx = 0;
-      dy = -10;
-    }
+  if (keyPressed === UP_KEY && !goingDown) {
+    // dx = 0;
+    // dy = -10;
+    isGoingUp = true;
   }
 
-  if (isGoingRight) {
-    if (keyPressed === RIGHT_KEY && !goingLeft) {
-      dx = 10;
-      dy = 0;
-    }
+  if (keyPressed === RIGHT_KEY && !goingLeft) {
+    // dx = 10;
+    // dy = 0;
+    isGoingRight = true;
   }
 
-  if (isGoingDown) {
-    if (keyPressed === DOWN_KEY && !goingUp) {
-      dx = 0;
-      dy = 10;
-    }
+  if (keyPressed === DOWN_KEY && !goingUp) {
+    isGoingDown = true;
+    // dx = 0;
+    // dy = 10;
   }
 }
 
 function setGoingUp() {
-  isGoingUp = true;
+  dx = 0;
+  dy = -10;
+  isGoingUp = false;
 }
 
 function setGoingdown() {
-  isGoingDown = true;
+  dx = 0;
+  dy = 10;
+  isGoingDown = false;
 }
 
 function setGoingLeft() {
-  isGoingLeft = true;
+  dx = -10;
+  dy = 0;
+  isGoingLeft = false;
 }
 
 function setGoingRight() {
-  isGoingRight = true;
+  dx = 10;
+  dy = 0;
+  isGoingRight = false;
 }
 
 function setBoundaryObstacles() {

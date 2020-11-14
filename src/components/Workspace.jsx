@@ -106,6 +106,10 @@ export default function Workspace(props) {
           <block type="block_type_down"></block>
           <block type="block_type_left"></block>
           <block type="block_type_right"></block>
+          <block type="block_type_up_arrow_block"></block>
+          <block type="block_type_down_arrow_block"></block>
+          <block type="block_type_left_arrow_block"></block>
+          <block type="block_type_right_arrow_block"></block>
           <block type="block_type_snake_touched_itself"></block>
           <block type="block_type_snake_touched_boundary"></block>
           <block type="block_type_end_game"></block>
